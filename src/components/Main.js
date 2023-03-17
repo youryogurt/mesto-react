@@ -18,11 +18,17 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
       setUserDescription(userInfo.about);
       setUserAvatar(userInfo.avatar);
     })
+    .catch((err) => {
+      console.log(err);
+    })
     api.getInitialCards()
     .then((initialCards) => {
       setCards(initialCards)
     })
-  });
+    .catch((err) => {
+      console.log(err);
+    })
+  }, []);
 
   return (
     <main className="content">

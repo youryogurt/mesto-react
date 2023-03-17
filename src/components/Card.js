@@ -8,8 +8,8 @@ function Card({ card, onCardClick }) {
 
   return (
     <div key={card._id} className="gallery__card">
-      <img className="gallery__image" style={{ backgroundImage: `url(${card.link})` }} alt={card.name} onClick={handleCardClick} />
-      <button className="gallery__delete-button button" type="button"></button>
+    <img className="gallery__image" src={card.link} alt={card.name} onClick={handleCardClick} />
+    <button className="gallery__delete-button button" type="button"></button>
       <div className="gallery__caption">
         <p className="gallery__place-name">{card.name}</p>
         <div className="gallery__like-section">
