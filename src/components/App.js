@@ -1,20 +1,18 @@
-import "../index.css";
-import Header from "./Header.js";
-import Main from "./Main.js";
-import Footer from "./Footer.js";
-import PopupWithForm from "./PopupWithForm.js";
-import ImagePopup from "./ImagePopup.js";
-import React from "react";
-import api from "../utils/api.js";
+import '../index.css';
+import Header from './Header.js';
+import Main from './Main.js';
+import Footer from './Footer.js';
+import PopupWithForm from './PopupWithForm.js';
+import ImagePopup from './ImagePopup.js';
+import api from '../utils/api.js';
+import {React, useEffect, useState} from 'react';
 
 function App() {
-  const [isEditAvatarPopupOpen, SetIsEditAvatarPopupOpen] =
-    React.useState(false);
-  const [isEditProfilePopupOpen, SetIsEditProfilePopupOpen] =
-    React.useState(false);
-  const [isAddPlacePopupOpen, SetIsAddPlacePopupOpen] = React.useState(false);
-  const [isImagePopupOpen, SetIsImagePopup] = React.useState(false);
-  const [selectedCard, SetSelectedCard] = React.useState(null);
+  const [isEditAvatarPopupOpen, SetIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, SetIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, SetIsAddPlacePopupOpen] = useState(false);
+  const [isImagePopupOpen, SetIsImagePopup] = useState(false);
+  const [selectedCard, SetSelectedCard] = useState(null);
 
   function handleEditAvatarClick() {
     SetIsEditAvatarPopupOpen(true);
@@ -56,7 +54,6 @@ function App() {
           type="change-avatar"
           name="change-avatar"
           title="Обновить аватар"
-          buttonText="Сохранить"
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
         >
@@ -80,7 +77,6 @@ function App() {
           type="editing"
           name="editing"
           title="Редактировать профиль"
-          buttonText="Сохранить"
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
         >

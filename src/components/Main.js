@@ -1,17 +1,17 @@
-import React from 'react';
+import {React, useEffect, useState} from 'react';
 import changeAvatar from '../images/change-avatar.svg';
 import api from '../utils/api.js';
 import Card from './Card.js';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
 
-  const [userName, setUserName] = React.useState('Жак-Ив Кусто');
-  const [userDescription, setUserDescription] = React.useState('Исследователь океана');
-  const [userAvatar, setUserAvatar] = React.useState('');
-  const [cards, setCards] = React.useState([]);
+  const [userName, setUserName] = useState('Жак-Ив Кусто');
+  const [userDescription, setUserDescription] = useState('Исследователь океана');
+  const [userAvatar, setUserAvatar] = useState('');
+  const [cards, setCards] = useState([]);
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     api.getUserInfo()
     .then((userInfo) => {
       setUserName(userInfo.name);
