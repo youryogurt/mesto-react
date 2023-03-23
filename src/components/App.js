@@ -2,10 +2,10 @@ import '../index.css';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
-import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
+import AddPlacePopup from './AddPlacePopup.js';
 import api from '../utils/api.js';
 import {React, useEffect, useState} from 'react';
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
@@ -74,6 +74,13 @@ function App() {
     });
   }
 
+  function handleAddPlaceSubmit({name, link}) {
+    api.addCard({name, link}).then((newCard) => {
+      setCards([newCard, ...cards]);
+      closeAllPopups();
+    });
+  }
+
   useEffect(() => {
     api.getUserInfo()
     .then((userInfo) => {
@@ -108,45 +115,7 @@ function App() {
 
           <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
-          <PopupWithForm
-            type="add-card"
-            name="add-card"
-            title="Новое место"
-            buttonText="Создать"
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-          >
-            <label className="popup__label">
-              <input
-                className="popup__text"
-                id="place-name"
-                type="text"
-                name="name"
-                placeholder="Название"
-                minLength="2"
-                maxLength="30"
-                required
-              />
-              <span
-                className="place-name-error popup__text-error"
-                id="place-name-error"
-              ></span>
-            </label>
-            <label className="popup__label">
-              <input
-                className="popup__text"
-                id="link"
-                type="URL"
-                name="link"
-                placeholder="Ссылка на картинку"
-                required
-              />
-              <span
-                className="link-error popup__text-error"
-                id="link-error"
-              ></span>
-            </label>
-          </PopupWithForm>
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
 
           <ImagePopup
             isOpen={isImagePopupOpen}
