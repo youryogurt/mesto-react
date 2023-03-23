@@ -31,6 +31,11 @@ export class Api {
   async setUserInfo(data) {
     return await this._fetch('users/me', 'PATCH', data);
   }
+  
+  // добавила в рамках спринта 11
+  async setUserAvatar(data) {
+    return await this._fetch('users/me/avatar', 'PATCH', data);
+  }
 
   async addCard(data) {
     return await this._fetch('cards', 'POST', data);
@@ -51,6 +56,14 @@ export class Api {
 
   async dislikeCard(cardId) {
     return await this._fetch(`cards/likes/${cardId}`, 'DELETE');
+  }
+
+  // добавила в рамках пунка 2 спринта 11
+  async changeLikeCardStatus(cardId, isLiked) {
+    if (isLiked) {
+      return await this.likeCard(cardId);
+    }
+    return await this.dislikeCard(cardId);
   }
 }
 
