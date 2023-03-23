@@ -57,15 +57,17 @@ function App() {
       setCards((state) => state.filter((c) => c._id !== card._id));
     });
   }
-
+  
+  //обработчик сабмита формы редактирования профиля
   function handleUpdateUser({name, about}) {
-    api.setUserInfo(name, about).then((userInfo) => {
+    api.setUserInfo({name, about}).then((userInfo) => {
       setCurrentUser(userInfo);
       closeAllPopups();
     });
   }
-
-  function handleUpdateAvatar({avatar}) {
+  
+  //обработчик сабмита формы изменения аватара
+  function handleUpdateAvatar(avatar) {
     api.setUserAvatar(avatar).then((userInfo) => {
       setCurrentUser(userInfo);
       closeAllPopups();
@@ -103,29 +105,6 @@ function App() {
           <Footer />
           
           <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} /> 
-
-          <PopupWithForm
-            type="change-avatar"
-            name="change-avatar"
-            title="Обновить аватар"
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-          >
-            <label className="popup__label">
-              <input
-                className="popup__text"
-                id="avatar-link"
-                type="URL"
-                name="avatar"
-                placeholder="Ссылка на новый аватар"
-                required
-              />
-              <span
-                className="avatar-link-error popup__text-error"
-                id="avatar-link-error"
-              ></span>
-            </label>
-          </PopupWithForm>
 
           <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 

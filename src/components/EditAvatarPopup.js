@@ -42,28 +42,3 @@ function EditAvatarPopup(props) {
 }
 
 export default EditAvatarPopup;
-
-
-
-{/* <PopupWithForm
-            type="change-avatar"
-            name="change-avatar"
-            title="Обновить аватар"
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-          >
-            <label className="popup__label">
-              <input
-                className="popup__text"
-                id="avatar-link"
-                type="URL"
-                name="avatar"
-                placeholder="Ссылка на новый аватар"
-                required
-              />
-              <span
-                className="avatar-link-error popup__text-error"
-                id="avatar-link-error"
-              ></span>
-            </label>
-          </PopupWithForm> */}
