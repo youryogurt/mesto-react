@@ -11,50 +11,72 @@ import {React, useEffect, useState} from 'react';
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
 
 function App() {
-  const [isEditAvatarPopupOpen, SetIsEditAvatarPopupOpen] = useState(false);
-  const [isEditProfilePopupOpen, SetIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, SetIsAddPlacePopupOpen] = useState(false);
-  const [isImagePopupOpen, SetIsImagePopup] = useState(false);
-  const [selectedCard, SetSelectedCard] = useState(null);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isImagePopupOpen, setIsImagePopup] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
   function handleEditAvatarClick() {
-    SetIsEditAvatarPopupOpen(true);
+    setIsEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
-    SetIsEditProfilePopupOpen(true);
+    setIsEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    SetIsAddPlacePopupOpen(true);
+    setIsAddPlacePopupOpen(true);
   }
 
   function handleCardClick(card) {
-    SetIsImagePopup(true);
-    SetSelectedCard(card);
+    setIsImagePopup(true);
+    setSelectedCard(card);
   }
 
   function closeAllPopups() {
-    SetIsEditAvatarPopupOpen(false);
-    SetIsEditProfilePopupOpen(false);
-    SetIsAddPlacePopupOpen(false);
-    SetIsImagePopup(false);
-    SetSelectedCard(null);
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsImagePopup(false);
+    setSelectedCard(null);
   }
+
+  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || isImagePopupOpen;
+
+  useEffect(() => {
+    function handleEscClose(evt) {
+      if (evt.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscClose);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleEscClose);
+    };
+  }, [isOpen]);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
       setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    })
+    .catch((err) => {
+      console.log(err);
     });
   }
 
   function handleCardDelete(card) {
     api.deleteCard(card._id).then(() => {
       setCards((state) => state.filter((c) => c._id !== card._id));
+    })
+    .catch((err) => {
+      console.log(err);
     });
   }
   
@@ -63,7 +85,10 @@ function App() {
     api.setUserInfo({name, about}).then((userInfo) => {
       setCurrentUser(userInfo);
       closeAllPopups();
-    });
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
   
   //обработчик сабмита формы изменения аватара
@@ -71,6 +96,9 @@ function App() {
     api.setUserAvatar(avatar).then((userInfo) => {
       setCurrentUser(userInfo);
       closeAllPopups();
+    })
+    .catch((err) => {
+      console.log(err);
     });
   }
 
@@ -78,6 +106,9 @@ function App() {
     api.addCard({name, link}).then((newCard) => {
       setCards([newCard, ...cards]);
       closeAllPopups();
+    })
+    .catch((err) => {
+      console.log(err);
     });
   }
 
@@ -85,6 +116,9 @@ function App() {
     api.getUserInfo()
     .then((userInfo) => {
       setCurrentUser(userInfo);
+    })
+    .catch((err) => {
+      console.log(err);
     });
     api.getInitialCards()
     .then((initialCards) => {
@@ -124,17 +158,16 @@ function App() {
             onClose={closeAllPopups}
           />
 
-          <div className="popup popup_type_delete-card">
+          {/* <div className="popup popup_type_delete-card">
             <form
               className="popup__container_delete-card popup__container"
               name="delete"
-              noValidate
             >
               <button
                 className="button popup__close-button"
                 type="button"
                 aria-label="close"
-              ></button>
+              />
               <h2 className="popup__header popup__header_delete">Вы уверены?</h2>
               <button
                 className="button popup__button"
@@ -144,7 +177,8 @@ function App() {
                 Да
               </button>
             </form>
-          </div>
+          </div> */}
+
         </div>
       </div>
   </CurrentUserContext.Provider>

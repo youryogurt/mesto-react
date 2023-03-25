@@ -2,16 +2,24 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
 
 function AddPlacePopup(props) {
-  const nameRef = React.useRef();
-  const linkRef = React.useRef();
+  const [name, setName] = React.useState("");
+  const [link, setLink] = React.useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
 
     props.onAddPlace({
-      name: nameRef.current.value,
-      link: linkRef.current.value,
+      name: name,
+      link: link,
     });
+  }
+
+  function handleNameChange(e) {
+    setName(e.target.value);
+  }
+
+  function handleLinkChange(e) {
+    setLink(e.target.value);
   }
 
   return (
@@ -20,6 +28,7 @@ function AddPlacePopup(props) {
       name="add-card"
       title="Новое место"
       buttonText="Создать"
+      // buttonText={isLoading? 'Сохранение...' : 'Создать'}
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
@@ -34,7 +43,8 @@ function AddPlacePopup(props) {
           minLength="2"
           maxLength="30"
           required
-          ref={nameRef}
+          value={name || ""}
+          onChange={handleNameChange}
         />
         <span
           className="place-name-error popup__text-error"
@@ -49,7 +59,8 @@ function AddPlacePopup(props) {
           name="link"
           placeholder="Ссылка на картинку"
           required
-          ref={linkRef}
+          value={link || ""}
+          onChange={handleLinkChange}
         />
         <span className="link-error popup__text-error" id="link-error"></span>
       </label>
